@@ -1,15 +1,23 @@
-export function ProductsListComponent(productComponents) {
-  this.productComponents = productComponents;
+import { ProductComponent } from './product';
+
+export class ProductsListComponent {
+  private productComponents: Array<ProductComponent>;
+
+  constructor(productComponents: Array<ProductComponent>) {
+    this.productComponents = productComponents;
+  }
+
+  createDOMElement() {
+      let listElement = document.createElement('div');
+
+      listElement.className = 'list-group';
+
+      this.productComponents.forEach(function(productComponent) {
+          let element = productComponent.createDOMElement();
+          element.className += ' list-group-item';
+          listElement.appendChild(element);
+      });
+
+      return listElement;
+  }
 }
-
-ProductsListComponent.prototype.createDOMElement = function() {
-  var listElement = document.createElement('div');
-
-  listElement.className = 'products-list';
-
-  this.productComponents.forEach(function(productComponent) {
-    listElement.appendChild(productComponent.createDOMElement());
-  });
-
-  return listElement;
-};

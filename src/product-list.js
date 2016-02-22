@@ -1,19 +1,25 @@
 System.register([], function(exports_1) {
-    function ProductsListComponent(productComponents) {
-        this.productComponents = productComponents;
-    }
-    exports_1("ProductsListComponent", ProductsListComponent);
+    var ProductsListComponent;
     return {
         setters:[],
         execute: function() {
-            ProductsListComponent.prototype.createDOMElement = function () {
-                var listElement = document.createElement('div');
-                listElement.className = 'products-list';
-                this.productComponents.forEach(function (productComponent) {
-                    listElement.appendChild(productComponent.createDOMElement());
-                });
-                return listElement;
-            };
+            ProductsListComponent = (function () {
+                function ProductsListComponent(productComponents) {
+                    this.productComponents = productComponents;
+                }
+                ProductsListComponent.prototype.createDOMElement = function () {
+                    var listElement = document.createElement('div');
+                    listElement.className = 'list-group';
+                    this.productComponents.forEach(function (productComponent) {
+                        var element = productComponent.createDOMElement();
+                        element.className += ' list-group-item';
+                        listElement.appendChild(element);
+                    });
+                    return listElement;
+                };
+                return ProductsListComponent;
+            })();
+            exports_1("ProductsListComponent", ProductsListComponent);
         }
     }
 });

@@ -3,7 +3,8 @@
         "target": "es5",
         "module": "system",
         "sourceMap": true,
-        "outDir": "public/dist/"
+        "outDir": "public/dist/",
+        "experimentalDecorators": true
     },
     "files": [
         "src/main.ts",

@@ -1,14 +1,31 @@
-import { ProductComponent } from './product';
-
-export function PromotedProductComponent(name, price) {
-  ProductComponent.call(this, name, price);
+function deprecated() {
+    return function() {
+        if (arguments.length === 3) {
+            let [ target, propertyKey, value ] = Array.prototype.slice.call(arguments);
+            return {
+                value: function (...args: any[]) {
+                    console.warn(`Method ${propertyKey} is deprecated`);
+                    return value.value.apply(this, args);
+                }
+            };
+        } else {
+            console.warn(`Class is deprecated`);
+        }
+    };
 }
 
-PromotedProductComponent.prototype = Object.create(ProductComponent.prototype);
-PromotedProductComponent.prototype.constructor = ProductComponent;
+import { ProductComponent } from './product';
 
-PromotedProductComponent.prototype.createDOMElement = function() {
-  var componentElement = ProductComponent.prototype.createDOMElement.call(this);
-  componentElement.className += ' promoted';
-  return componentElement;
-};
+@deprecated()
+export class PromotedProductComponent extends ProductComponent {
+    constructor(name: String, price: Number) {
+        super(name, price);
+    }
+
+    @deprecated()
+    createDOMElement() {
+        let componentElement = super.createDOMElement();
+        componentElement.className += ' list-group-item-success';
+        return componentElement;
+    }
+}

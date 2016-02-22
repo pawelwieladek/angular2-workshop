@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/pawelwieladek/angular2-workshop#readme",
   "dependencies": {
-    "ts-loader": "^0.8.1",
+    "classnames": "^2.2.3",
     "typescript": "^1.7.5"
   }
 }
