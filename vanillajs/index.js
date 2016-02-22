@@ -1,7 +1,6 @@
-function ProductComponent(props) {
-  this.name = props.name;
-  this.price = props.price;
-  this.isPromoted = props.isPromoted;
+function ProductComponent(name, price) {
+  this.name = name;
+  this.price = price;
 }
 
 ProductComponent.prototype.createDOMElement = function() {
@@ -17,18 +16,27 @@ ProductComponent.prototype.createDOMElement = function() {
   priceElement.textContent = `Price: ${this.price} PLN`;
   priceElement.className = 'product-price';
 
-  if (this.isPromoted) {
-    componentElement.className += ' promoted';
-  }
-
   componentElement.appendChild(nameElement);
   componentElement.appendChild(priceElement);
 
   return componentElement;
 }
 
-function ProductsListComponent(productsList) {
-  this.productsList = productsList;
+function PromotedProductComponent(name, price) {
+  ProductComponent.call(this, name, price);
+}
+
+PromotedProductComponent.prototype = Object.create(ProductComponent.prototype);
+PromotedProductComponent.prototype.constructor = ProductComponent;
+
+PromotedProductComponent.prototype.createDOMElement = function() {
+  var componentElement = ProductComponent.prototype.createDOMElement.call(this);
+  componentElement.className += ' promoted';
+  return componentElement;
+}
+
+function ProductsListComponent(productComponents) {
+  this.productComponents = productComponents;
 }
 
 ProductsListComponent.prototype.createDOMElement = function() {
@@ -36,17 +44,16 @@ ProductsListComponent.prototype.createDOMElement = function() {
 
   listElement.className = 'products-list';
 
-  this.productsList.forEach(function(product) {
-    var productElement = new ProductComponent(product);
-    listElement.appendChild(productElement.createDOMElement());
+  this.productComponents.forEach(function(productComponent) {
+    listElement.appendChild(productComponent.createDOMElement());
   });
 
   return listElement;
 };
 
 var productsList = new ProductsListComponent([
-  { name: 'Sony Z2', price: 1200, isPromoted: true },
-  { name: 'iPhone', price: 3600 },
-  { name: 'Samsung S6', price: 2400 }
+  new PromotedProductComponent('Sony Z2', 1200),
+  new ProductComponent('iPhone', 2400),
+  new ProductComponent('Samsung S6', 3600)
 ]);
 document.body.appendChild(productsList.createDOMElement());
