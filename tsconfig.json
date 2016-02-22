@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "system",
+        "sourceMap": true,
+        "outDir": "public/dist/"
+    },
+    "files": [
+        "src/main.ts",
+        "src/product.ts",
+        "src/promoted-product.ts",
+        "src/product-list.ts"
+    ]
+}
